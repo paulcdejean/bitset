@@ -1,5 +1,5 @@
 use std::marker::PhantomData;
-use std::ops::{BitAnd, BitOrAssign, Shl};
+use std::ops::{BitAnd, BitOrAssign, Not, Shl};
 
 #[derive(Clone, Copy, Eq, PartialEq, Default)]
 pub struct BitSet<T, S = usize> {
@@ -42,6 +42,15 @@ where
     pub fn capacity(&self) -> usize {
         return S::BITS as usize;
     }
+    pub fn clear(&mut self) {
+        self.bits = 0.into();
+    }
+    pub fn difference(&self, other: Self) -> Self {
+        return Self {
+            bits: self.bits & !other.bits,
+            phantom: PhantomData,
+        }
+    }
 }
 
 pub trait UnsignedNumber:
@@ -52,6 +61,7 @@ pub trait UnsignedNumber:
     + From<u8>
     + BitOrAssign
     + BitAnd<Output = Self>
+    + Not<Output = Self>
 {
     fn count_ones(self) -> u32;
     const BITS: u32;

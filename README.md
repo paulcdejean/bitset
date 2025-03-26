@@ -5,9 +5,9 @@ Although note that set items are inserted and extracted by value and not by refe
 | Function | Status | Notes |
 | ------------------------------ | ------------------------ | ----------------------- |
 | capacity | ✅ | Returns the number of bits the bitset can hold, which is fixed. |
-| clear | TODO |
-| contains | TODO |
-| difference | TODO |
+| clear | ✅ |
+| contains | ✅ |
+| difference | ✅ | Rather than returning a lazy iterator, simply returns a new bitset.
 | drain | TODO |
 | entry | TODO |
 | extract_if | TODO |
