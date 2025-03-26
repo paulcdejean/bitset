@@ -1,5 +1,3 @@
-#![allow(warnings)]
-
 use std::marker::PhantomData;
 use std::ops::{BitAnd, BitOrAssign, Shl};
 
@@ -25,7 +23,7 @@ where
     pub fn insert(&mut self, n: T) {
         match T::try_from(S::BITS) {
             Ok(v) => assert!(n >= 0.into() && n < v),
-            Err(e) => panic!("S::BITS is greater than T::MAX"),
+            Err(_) => panic!("S::BITS is greater than T::MAX"),
         }
         self.bits |= (T::from(1) << n).into();
     }
@@ -38,7 +36,7 @@ where
                     return self.bits & (S::from(1) << n.into()) > 0.into();
                 }
             }
-            Err(e) => panic!("S::BITS is greater than T::MAX"),
+            Err(_) => panic!("S::BITS is greater than T::MAX"),
         }
     }
 }
