@@ -1,7 +1,7 @@
 use std::marker::PhantomData;
 use std::ops::{BitAnd, BitOrAssign, Shl};
 
-#[derive(Clone, Copy, Eq, PartialEq)]
+#[derive(Clone, Copy, Eq, PartialEq, Default)]
 pub struct BitSet<T, S = usize> {
     bits: S,
     phantom: PhantomData<T>,
@@ -39,12 +39,14 @@ where
             Err(_) => panic!("S::BITS is greater than T::MAX"),
         }
     }
+    pub fn capacity(&self) -> usize {
+        return S::BITS as usize;
+    }
 }
 
 pub trait UnsignedNumber:
     Copy
     + PartialOrd
-    + Sized
     + Shl<Output = Self>
     + TryFrom<u32>
     + From<u8>
@@ -78,7 +80,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn has_seven() {
+    fn has_seven_not_eight() {
         let mut bs: BitSet<usize> = BitSet::new();
         bs.insert(7);
         assert!(bs.contains(7));
