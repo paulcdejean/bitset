@@ -26,13 +26,13 @@ Although note that set items are inserted and extracted by value and not by refe
 | new | ✅ | The new bitset is initalized to be empty.
 | remove | TODO
 | replace | TODO
-| reserve | ❌ | Won't be implemented as bitsets can't change size. |
+| reserve | ❌ | BitSet capacity is fixed
 | retain | TODO
-| shrink_to | ❌ | BitSet capacity can't change.
-| shrink_to_fit | ❌ | BitSet capacity can't change.
+| shrink_to | ❌ | BitSet capacity is fixed
+| shrink_to_fit | ❌ | BitSet capacity is fixed
 | symmetric_difference | TODO
 | take | TODO
-| try_reserve | ❌ | BitSet capacity can't change.
+| try_reserve | ❌ | BitSet capacity is fixed
 | union | TODO
 | with_capacity | ❌ | BitSet capacity is fixed.
 | with_capacity_and_hasher | ❌
