@@ -1,5 +1,5 @@
 use std::marker::PhantomData;
-use std::ops::{BitAnd, BitOrAssign, Not, Shl};
+use std::ops::{BitAnd, BitOr, BitOrAssign, Not, Shl};
 
 #[derive(Clone, Copy, Eq, PartialEq, Default)]
 pub struct BitSet<T, S = usize> {
@@ -7,7 +7,7 @@ pub struct BitSet<T, S = usize> {
     phantom: PhantomData<T>,
 }
 
-impl<S: UnsignedNumber, T: UnsignedNumber> BitSet<T, S>
+impl<T: UnsignedNumber, S: UnsignedNumber> BitSet<T, S>
 where
     T: Into<S>,
 {
@@ -51,6 +51,18 @@ where
             phantom: PhantomData,
         }
     }
+    pub fn get(&self, value: T) -> Option<T> {
+        match self.contains(value) {
+            true => Some(value),
+            false => None,
+        }
+    }
+    pub fn intersection(&self, other: Self) -> Self {
+        return Self {
+            bits: self.bits | other.bits,
+            phantom: PhantomData,
+        }
+    }
 }
 
 pub trait UnsignedNumber:
@@ -60,6 +72,7 @@ pub trait UnsignedNumber:
     + TryFrom<u32>
     + From<u8>
     + BitOrAssign
+    + BitOr<Output = Self>
     + BitAnd<Output = Self>
     + Not<Output = Self>
 {

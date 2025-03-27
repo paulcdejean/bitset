@@ -9,14 +9,14 @@ Although note that set items are inserted and extracted by value and not by refe
 | contains | ✅ |
 | difference | ✅ | Rather than returning a lazy iterator, simply returns a new bitset.
 | drain | TODO |
-| entry | TODO |
-| extract_if | TODO |
-| get | TODO |
+| entry | ❌ | This is nightly only experimental for HashSet, so won't be implemented at this time.
+| extract_if | ❌ | This is nightly only experimental for HashSet, so won't be implemented at this time.
+| get | ✅ |
 | get_or_insert | TODO |
 | get_or_insert_with | TODO |
 | hasher | ❌ | Hasher related functions won't be implemented. |
 | insert | ✅ 
-| intersection | TODO
+| intersection | ✅
 | is_disjoint | TODO
 | is_empty | TODO
 | is_subset | TODO
