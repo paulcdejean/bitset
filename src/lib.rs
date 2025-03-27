@@ -12,13 +12,13 @@ where
     T: Into<S>,
 {
     pub fn new() -> BitSet<T, S> {
-        return BitSet {
+        BitSet {
             bits: 0.into(),
             phantom: PhantomData,
-        };
+        }
     }
     pub fn len(&self) -> usize {
-        return self.bits.count_ones() as usize;
+        self.bits.count_ones() as usize
     }
     pub fn insert(&mut self, n: T) {
         match T::try_from(S::BITS) {
@@ -31,22 +31,22 @@ where
         match T::try_from(S::BITS) {
             Ok(v) => {
                 if n < 0.into() || n >= v {
-                    return false;
+                    false
                 } else {
-                    return self.bits & (S::from(1) << n.into()) > 0.into();
+                    self.bits & (S::from(1) << n.into()) > 0.into()
                 }
             }
             Err(_) => panic!("S::BITS is greater than T::MAX"),
         }
     }
     pub fn capacity(&self) -> usize {
-        return S::BITS as usize;
+        S::BITS as usize
     }
     pub fn clear(&mut self) {
         self.bits = 0.into();
     }
     pub fn difference(&self, other: Self) -> Self {
-        return Self {
+        Self {
             bits: self.bits & !other.bits,
             phantom: PhantomData,
         }
@@ -58,10 +58,16 @@ where
         }
     }
     pub fn intersection(&self, other: Self) -> Self {
-        return Self {
+        Self {
             bits: self.bits | other.bits,
             phantom: PhantomData,
         }
+    }
+    pub fn is_disjoint(&self, other: Self) -> bool {
+        self.bits & other.bits == 0.into()
+    }
+    pub fn is_empty(&self) -> bool {
+        self.bits == 0.into()
     }
 }
 
