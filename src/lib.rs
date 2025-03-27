@@ -1,5 +1,5 @@
 use std::marker::PhantomData;
-use std::ops::{BitAnd, BitOr, BitOrAssign, Not, Shl};
+use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, Not, Shl};
 
 #[derive(Clone, Copy, Eq, PartialEq, Default)]
 pub struct BitSet<T, S = usize> {
@@ -20,12 +20,12 @@ where
     pub fn len(&self) -> usize {
         self.bits.count_ones() as usize
     }
-    pub fn insert(&mut self, n: T) {
+    pub fn insert(&mut self, value: T) {
         match T::try_from(S::BITS) {
-            Ok(v) => assert!(n >= 0.into() && n < v),
+            Ok(v) => assert!(value >= 0.into() && value < v),
             Err(_) => panic!("S::BITS is greater than T::MAX"),
         }
-        self.bits |= (T::from(1) << n).into();
+        self.bits |= (T::from(1) << value).into();
     }
     pub fn contains(&self, n: T) -> bool {
         match T::try_from(S::BITS) {
@@ -69,6 +69,15 @@ where
     pub fn is_empty(&self) -> bool {
         self.bits == 0.into()
     }
+    pub fn is_subset(&self, other: Self) -> bool {
+        self.bits & !other.bits == 0.into()
+    }
+    pub fn is_superset(&self, other: Self) -> bool {
+        !self.bits & other.bits == 0.into()
+    }
+    pub fn remove(&mut self, value: T) {
+        self.bits &= !(T::from(1) << value).into()
+    }
 }
 
 pub trait UnsignedNumber:
@@ -79,6 +88,7 @@ pub trait UnsignedNumber:
     + From<u8>
     + BitOrAssign
     + BitOr<Output = Self>
+    + BitAndAssign
     + BitAnd<Output = Self>
     + Not<Output = Self>
 {
